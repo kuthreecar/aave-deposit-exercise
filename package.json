@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aave/protocol-v2": "^1.0.1",
     "openzeppelin-solidity": "^4.4.1"
   }
 }

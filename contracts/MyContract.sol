@@ -2,7 +2,7 @@ pragma solidity >=0.4.22 <0.9.0;
 
 // Import interface for ERC20 standard
 import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
-import "../aave-protocol/contracts/configuration/LendingPoolAddressesProvider.sol";
+import {ILendingPool} from "@aave/protocol-v2/contracts/interfaces/ILendingPool.sol";
 
 interface MyContract {
 
