@@ -1,10 +1,12 @@
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
 // Import interface for ERC20 standard
-import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
-import {ILendingPool} from "@aave/protocol-v2/contracts/interfaces/ILendingPool.sol";
+//import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
+import {LendingPool} from "@aave/protocol-v2/contracts/protocol/lendingpool/LendingPool.sol";
+import {LendingPoolAddressesProvider} from "@aave/protocol-v2/contracts/protocol/configuration/LendingPoolAddressesProvider.sol";
 
-interface MyContract {
+interface IMyContract {
 
     /// @dev Deposit ERC20 tokens on behalf of msg.sender to Aave Protocol
     /// @param _erc20Contract The address fo the underlying asset to deposit to Aave Protocol v2
@@ -23,13 +25,13 @@ interface MyContract {
     function checkCollateralValueInEth(address _erc20Contract) external view returns (uint256 amountInEth);
 }
 
-contract MyContractImpl is MyContract {
+contract MyContract is IMyContract {
 
     LendingPoolAddressesProvider provider;
     address constant mainnetPoolProvider = 0x24a42fD28C976A61Df5D00D0599C34c4f90748c8;
 
     constructor () public{
-        LendingPoolAddressesProvider provider = LendingPoolAddressesProvider(mainnetPoolProvider); 
+        provider = LendingPoolAddressesProvider(mainnetPoolProvider); 
     }
 
     function deposit(address _erc20Contract, uint256 _amount) external override returns (bool success)
@@ -37,8 +39,11 @@ contract MyContractImpl is MyContract {
         // Retrieve LendingPool address
         LendingPool lendingPool = LendingPool(provider.getLendingPool());
 
+        // parameters
+        uint16 referralCode = 0;
+
         // Deposit 
-        lendingPool.deposit(_erc20Contract, _amount, msg.sender);
+        lendingPool.deposit(_erc20Contract, _amount, msg.sender, referralCode);
 
         return true;
     }
@@ -49,9 +54,7 @@ contract MyContractImpl is MyContract {
         LendingPool lendingPool = LendingPool(provider.getLendingPool());
 
         // Withdraw
-        uint256 amountWithdrawn = lendingPool.withdraw(_erc20Contract, _amount, msg.sender);
-
-        return amountWithdrawn;
+        return lendingPool.withdraw(_erc20Contract, _amount, msg.sender);
    }
    
     function checkCollateralValueInEth(address _erc20Contract) external view override returns (uint256 amountInEth)
@@ -60,8 +63,8 @@ contract MyContractImpl is MyContract {
         LendingPool lendingPool = LendingPool(provider.getLendingPool());
 
         // Get Reserve Data
-        uint256 amountInEth = lendingPool.totalCollateralETH(_erc20Contract);
-
-        return amountInEth;
+        (uint256 totalCollateralETH,,,,,) = lendingPool.getUserAccountData(_erc20Contract);
+        return totalCollateralETH;
     }
+    
 }
