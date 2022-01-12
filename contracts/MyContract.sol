@@ -23,7 +23,7 @@ interface MyContract {
     function checkCollateralValueInEth(address _erc20Contract) external view returns (uint256 amountInEth);
 }
 
-contract MyContract1 is MyContract {
+contract MyContractImpl is MyContract {
 
     LendingPoolAddressesProvider provider;
     address constant mainnetPoolProvider = 0x24a42fD28C976A61Df5D00D0599C34c4f90748c8;
