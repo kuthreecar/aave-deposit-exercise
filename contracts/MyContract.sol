@@ -20,14 +20,13 @@ interface MyContract {
 
     /// @dev Read only function 
     /// @return amountInEth Returns the value locked as collateral posted by msg.sender
-    function checkCollateralValueInEth() external view returns (uint256 amountInEth);
+    function checkCollateralValueInEth(address _erc20Contract) external view returns (uint256 amountInEth);
 }
 
 contract MyContract1 is MyContract {
 
     LendingPoolAddressesProvider provider;
-    address mainnetPoolProvider = 0x24a42fD28C976A61Df5D00D0599C34c4f90748c8;
-    address reserveAddress;
+    address constant mainnetPoolProvider = 0x24a42fD28C976A61Df5D00D0599C34c4f90748c8;
 
     constructor () public{
         LendingPoolAddressesProvider provider = LendingPoolAddressesProvider(mainnetPoolProvider); 
@@ -38,36 +37,31 @@ contract MyContract1 is MyContract {
         // Retrieve LendingPool address
         LendingPool lendingPool = LendingPool(provider.getLendingPool());
 
-        // Input variables
-        uint16 referral = 0;
-
         // Deposit 
-        lendingPool.deposit(_erc20Contract, _amount, referral);
+        lendingPool.deposit(_erc20Contract, _amount, msg.sender);
 
         return true;
     }
 
     function withdraw(address _erc20Contract, uint256 _amount) external override returns (uint256 amountWithdrawn)
     {
-        /// Retrieve LendingPool address
+        // Retrieve LendingPool address
         LendingPool lendingPool = LendingPool(provider.getLendingPool());
 
-        /// If repaying own loan
-        lendingPool.repay(daiAddress, amount, msg.sender);
+        // Withdraw
+        uint256 amountWithdrawn = lendingPool.withdraw(_erc20Contract, _amount, msg.sender);
 
-        /// If repaying on behalf of someone else
-        address userAddress = _erc20Contract;
-        IERC20(daiAddress).approve(provider.getLendingPoolCore(), _amount); // Approve LendingPool contract
-        lendingPool.repay(daiAddres, amount, userAddress);
-
-        return 0;
+        return amountWithdrawn;
    }
    
-    function checkCollateralValueInEth() external view override returns (uint256 amountInEth)
+    function checkCollateralValueInEth(address _erc20Contract) external view override returns (uint256 amountInEth)
     {
+        // Retrieve LendingPool address
         LendingPool lendingPool = LendingPool(provider.getLendingPool());
-        uint256 amountInEth = lendingPool.getReserveData(reserveAddress).totalLiquidity;
+
+        // Get Reserve Data
+        uint256 amountInEth = lendingPool.totalCollateralETH(reserveAddress);
+
         return amountInEth;
     }
 }
-
