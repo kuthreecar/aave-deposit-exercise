@@ -60,7 +60,7 @@ contract MyContract1 is MyContract {
         LendingPool lendingPool = LendingPool(provider.getLendingPool());
 
         // Get Reserve Data
-        uint256 amountInEth = lendingPool.totalCollateralETH(reserveAddress);
+        uint256 amountInEth = lendingPool.totalCollateralETH(_erc20Contract);
 
         return amountInEth;
     }
