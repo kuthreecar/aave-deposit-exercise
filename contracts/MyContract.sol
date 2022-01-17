@@ -32,16 +32,13 @@ contract MyContract is IMyContract {
     function deposit(address _erc20Contract, uint256 _amount) external override returns (bool success)
     {
         // Retrieve LendingPool address
-        //LendingPool lendingPool = LendingPool(provider.getLendingPool());
+        ILendingPool lendingPool = ILendingPool(pool);
 
-        // parameters
-        uint16 referralCode = 0;
-        
         IERC20 weth = IERC20(_erc20Contract);
-        
-        weth.approve(pool, _amount);
-        // Deposit 
-        ILendingPool(pool).deposit(_erc20Contract, _amount, msg.sender, referralCode);
+
+        weth.approve(address(lendingPool), _amount);
+
+       lendingPool.deposit(_erc20Contract, _amount, _erc20Contract, 0);
 
 /*
         ILendingPool lendingPool = ILendingPool(pool);
