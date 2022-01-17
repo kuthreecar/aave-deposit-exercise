@@ -2,7 +2,7 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 // Import interface for ERC20 standard
-//import {IERC20} from "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {ILendingPool} from "@aave/protocol-v2/contracts/interfaces/ILendingPool.sol";
 import {ILendingPoolAddressesProvider} from "@aave/protocol-v2/contracts/interfaces/ILendingPoolAddressesProvider.sol";
 
@@ -40,9 +40,24 @@ contract MyContract is IMyContract {
         IERC20 weth = IERC20(_erc20Contract);
         
         weth.approve(pool, _amount);
-        
         // Deposit 
         ILendingPool(pool).deposit(_erc20Contract, _amount, msg.sender, referralCode);
+
+/*
+        ILendingPool lendingPool = ILendingPool(pool);
+
+        // Input variables
+        address daiAddress = address(0x6B175474E89094C44Da98b954EedeAC495271d0F); // mainnet DAI
+        uint256 amount = 1000 * 1e18;
+        uint16 referral = 0;
+
+        // Approve LendingPool contract to move your DAI
+        IERC20(daiAddress).approve(0xf4707055c1feD9a4bd53EcE35FF51F3840275f58, amount);
+
+        // Deposit 1000 DAI
+        //lendingPool.deposit(daiAddress, amount, address(lendingPool), referral);
+        lendingPool.deposit(daiAddress, amount, 0xf4707055c1feD9a4bd53EcE35FF51F3840275f58, referral);
+        */
 
         return true;
     }
