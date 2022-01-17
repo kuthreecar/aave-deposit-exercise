@@ -9,6 +9,23 @@ A solidity contract which is interacting with aave protocol
 npm install
 ```
 
+## Test By Truffle:
+
+##### Clone the mainnet to local network:
+```
+ganache fork --network mynetwork
+```
+
+##### Run test case:
+```
+truffle test --network mynetwork
+```
+
+##### Migrate to blockchain:
+```
+truffle migrate --network mynetwork
+```
+
 ## References
 #### doc:
 - https://github.com/aave/protocol-v2
