@@ -13,7 +13,7 @@ npm install
 
 ##### Clone the mainnet to local network:
 ```
-ganache fork --network mynetwork
+ganache --fork -i mynetwork
 ```
 
 ##### Run test case:
