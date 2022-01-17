@@ -11,7 +11,7 @@ contract TestMyContract {
   
   //test parameters
   address constant erc20DefaultAddress = 0xc0279a3714955554B9DDA059ba99a75aA48E40CD;
-  uint256 constant testAmount = 10;
+  uint256 constant testAmount = 1 * 10 ** 18; //1 eth
   
   function testDeposit() public {
     bool returned = myContract.deposit(erc20DefaultAddress, testAmount);
