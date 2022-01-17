@@ -2,7 +2,7 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 // Import interface for ERC20 standard
-//import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
+//import {IERC20} from "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 import {ILendingPool} from "@aave/protocol-v2/contracts/interfaces/ILendingPool.sol";
 import {ILendingPoolAddressesProvider} from "@aave/protocol-v2/contracts/interfaces/ILendingPoolAddressesProvider.sol";
 
@@ -27,7 +27,7 @@ interface IMyContract {
 
 contract MyContract is IMyContract {
 
-    address constant pool = 0x24a42fD28C976A61Df5D00D0599C34c4f90748c8;
+    address constant pool = 0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9;
 
     function deposit(address _erc20Contract, uint256 _amount) external override returns (bool success)
     {
@@ -36,6 +36,11 @@ contract MyContract is IMyContract {
 
         // parameters
         uint16 referralCode = 0;
+        
+        IERC20 weth = IERC20(_erc20Contract);
+        
+        weth.approve(address(lendingPoolAAVE), _amount);
+        
         // Deposit 
         ILendingPool(pool).deposit(_erc20Contract, _amount, msg.sender, referralCode);
 
