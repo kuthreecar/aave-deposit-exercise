@@ -39,7 +39,7 @@ contract MyContract is IMyContract {
         
         IERC20 weth = IERC20(_erc20Contract);
         
-        weth.approve(address(lendingPoolAAVE), _amount);
+        weth.approve(pool, _amount);
         
         // Deposit 
         ILendingPool(pool).deposit(_erc20Contract, _amount, msg.sender, referralCode);
