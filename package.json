@@ -13,6 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "@aave/protocol-v2": "^1.0.1",
-    "@openzeppelin/contracts": "^3.4.1"
+    "@openzeppelin/contracts": "^3.4.1",
+    "truffle-console": "^5.1.64"
+  },
+  "devDependencies": {
+    "@nomiclabs/buidler": "^1.4.8"
   }
 }
