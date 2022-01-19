@@ -34,6 +34,7 @@ truffle migrate --network mynetwork
 
 #### testing:
 - https://blog.infura.io/fork-ethereum-replay-historical-transactions-with-ganache-7-archive-support/
+- https://medium.com/@samajammin/how-to-interact-with-ethereums-mainnet-in-a-development-environment-with-ganache-3d8649df0876
 
 #### troubleshoot:
 - https://ethereum.stackexchange.com/questions/115579/how-to-import-aave-and-uniswap-contracts-from-a-0-8-x-solidity-contract
