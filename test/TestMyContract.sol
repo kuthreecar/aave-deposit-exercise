@@ -10,7 +10,7 @@ contract TestMyContract {
   MyContract myContract = MyContract(DeployedAddresses.MyContract());
   
   //test parameters
-  address constant erc20DefaultAddress = 0x8d4425B58c2239620b687338699289779EcBe405;
+  address constant erc20DefaultAddress = 0x679EAE4AF989AE33c9150673422263397b63F27F;
   uint256 constant testAmount = 1 * 10 ** 18; //1 eth
   
   function testCheckCollateralValueInEth1() public {

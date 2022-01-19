@@ -34,27 +34,19 @@ contract MyContract is IMyContract {
         // Retrieve LendingPool address
         ILendingPool lendingPool = ILendingPool(pool);
 
-        IERC20 weth = IERC20(_erc20Contract);
-
-        weth.approve(address(lendingPool), _amount);
-
-       lendingPool.deposit(_erc20Contract, _amount, _erc20Contract, 0);
-
-/*
-        ILendingPool lendingPool = ILendingPool(pool);
-
         // Input variables
         address daiAddress = address(0x6B175474E89094C44Da98b954EedeAC495271d0F); // mainnet DAI
         uint256 amount = 1000 * 1e18;
+        //address onBehalfOf = msg.sender;
+        address onBehalfOf = _erc20Contract;
         uint16 referral = 0;
 
-        // Approve LendingPool contract to move your DAI
-        IERC20(daiAddress).approve(0xf4707055c1feD9a4bd53EcE35FF51F3840275f58, amount);
+        IERC20 dai = IERC20(daiAddress);
 
-        // Deposit 1000 DAI
-        //lendingPool.deposit(daiAddress, amount, address(lendingPool), referral);
-        lendingPool.deposit(daiAddress, amount, 0xf4707055c1feD9a4bd53EcE35FF51F3840275f58, referral);
-        */
+        dai.approve(address(lendingPool), _amount);
+
+        //lendingPool.deposit(daiAddress, _amount, msg.sender, 0);
+        lendingPool.deposit(daiAddress, _amount, onBehalfOf, 0);
 
         return true;
     }
